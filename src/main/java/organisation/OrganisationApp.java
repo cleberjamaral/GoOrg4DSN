@@ -3,10 +3,12 @@ package organisation;
 import java.util.ArrayList;
 import java.util.List;
 
-import annotations.Feature;
+import annotations.Definition;
+import annotations.Sector;
 import annotations.Workload;
 import organisation.goal.GoalNode;
 import organisation.goal.GoalTree;
+import organisation.resource.Agent;
 import organisation.resource.AgentSet;
 import organisation.search.Organisation;
 import organisation.search.cost.Cost;
@@ -33,7 +35,7 @@ public class OrganisationApp {
 			preferences.add(Cost.valueOf(args[i]));
 
 		if (preferences.size() == 0)
-			preferences.add(Cost.GENERALIST);
+			preferences.add(Cost.SPECIALIST);
 
 		// if a Moise XML file was not provided, use a sample organisation
 		if ((args.length < 1) || (args[0].equals("0"))) {
@@ -45,18 +47,23 @@ public class OrganisationApp {
 			
 			LOG.info("Search algorithm: "+ search);
 
-			GoalNode manage_nw = new GoalNode(null, "manage_NW");
+			GoalNode manage_sector_nw = new GoalNode(null, "manage_sector_NW");
 			GoalTree gTree = GoalTree.getInstance();
-			manage_nw.addWorkload(new Workload("manage_NW",0.6));
-			gTree.setRootNode(manage_nw);
-			gTree.addGoal("manage_NE", "manage_NW");
-			gTree.findAGoalByName(manage_nw, "manage_NE").addWorkload(new Workload("manage_NE",0.6));
-			gTree.addGoal("manage_SW", "manage_NW");
-			gTree.findAGoalByName(manage_nw, "manage_SW").addWorkload(new Workload("manage_SW",0.6));
-			gTree.addGoal("manage_SE", "manage_NW");
-			gTree.findAGoalByName(manage_nw, "manage_SE").addWorkload(new Workload("manage_SE",0.6));
-			gTree.addGoal("track_1", "manage_NW");
-			gTree.findAGoalByName(manage_nw, "track_1").addWorkload(new Workload("2,1",0.2));
+			manage_sector_nw.addAnnotation(new Workload("manage_sector",0.6));
+			manage_sector_nw.addAnnotation(new Sector("nw"));
+			gTree.setRootNode(manage_sector_nw);
+			gTree.addGoal("manage_sector_NE", "manage_sector_NW");
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_NE").addAnnotation(new Workload("manage_sector",0.6));
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_NE").addAnnotation(new Sector("ne"));
+			gTree.addGoal("manage_sector_SW", "manage_sector_NW");
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SW").addAnnotation(new Workload("manage_sector",0.6));
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SW").addAnnotation(new Sector("sw"));
+			gTree.addGoal("manage_sector_SE", "manage_sector_NW");
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SE").addAnnotation(new Workload("manage_sector",0.6));
+			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SE").addAnnotation(new Sector("se"));
+			gTree.addGoal("track_1", "manage_sector_NW");
+			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Workload("manage_track",0.2));
+			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Sector("nw"));
 
 			// perform organisation generation (free design)
 			Organisation org = orgGen.generateOrganisationFromTree("sample", preferences, search, Parameters.isOneSolution());
@@ -64,29 +71,48 @@ public class OrganisationApp {
 			// set available agents for this example
 			AgentSet agents = AgentSet.getInstance();
 			//sector nw
-			agents.addAgent("sensor_02_12", new String("02,12"));
-			agents.addAgent("sensor_02_18", new String("02,18"));
-			agents.addAgent("sensor_05_15", new String("05,15"));
-			agents.addAgent("sensor_08_12", new String("08,12"));
-			agents.addAgent("sensor_08_18", new String("08,18"));
+			agents.addAgent("sensor_02_12").addAnnotation(new Sector("nw"));
+			agents.addAgent("sensor_02_18").addAnnotation(new Sector("nw"));
+
+			Agent a = agents.addAgent("sensor_05_15");
+			a.addAnnotation(new Sector("nw"));
+			a.addAnnotation(new Definition("manage_sector"));
+			
+			agents.addAgent("sensor_08_12").addAnnotation(new Sector("nw"));
+			agents.addAgent("sensor_08_18").addAnnotation(new Sector("nw"));
+			
 			//sector ne
-			agents.addAgent("sensor_12_12", new String("12,12"));
-			agents.addAgent("sensor_12_18", new String("12,18"));
-			agents.addAgent("sensor_15_15", new String("15,15"));
-			agents.addAgent("sensor_18_12", new String("18,12"));
-			agents.addAgent("sensor_18_18", new String("18,18"));
+			agents.addAgent("sensor_12_12").addAnnotation(new Sector("ne"));
+			agents.addAgent("sensor_12_18").addAnnotation(new Sector("ne"));
+			
+			a = agents.addAgent("sensor_15_15");
+			a.addAnnotation(new Sector("ne"));
+			a.addAnnotation(new Definition("manage_sector"));
+			
+			agents.addAgent("sensor_18_12").addAnnotation(new Sector("ne"));
+			agents.addAgent("sensor_18_18").addAnnotation(new Sector("ne"));
+			
 			//sector sw
-			agents.addAgent("sensor_02_02", new String("02,02"));
-			agents.addAgent("sensor_02_08", new String("02,08"));
-			agents.addAgent("sensor_05_05", new String("05,05"));
-			agents.addAgent("sensor_08_02", new String("08,02"));
-			agents.addAgent("sensor_08_08", new String("08,08"));
+			agents.addAgent("sensor_02_02").addAnnotation(new Sector("sw"));
+			agents.addAgent("sensor_02_08").addAnnotation(new Sector("sw"));
+
+			a = agents.addAgent("sensor_05_05");
+			a.addAnnotation(new Sector("sw"));
+			a.addAnnotation(new Definition("manage_sector"));
+			
+			agents.addAgent("sensor_08_02").addAnnotation(new Sector("sw"));
+			agents.addAgent("sensor_08_08").addAnnotation(new Sector("sw"));
+			
 			//sector se
-			agents.addAgent("sensor_12_02", new String("12,02"));
-			agents.addAgent("sensor_12_08", new String("12,08"));
-			agents.addAgent("sensor_15_05", new String("15,05"));
-			agents.addAgent("sensor_18_02", new String("18,02"));
-			agents.addAgent("sensor_18_08", new String("18,08"));
+			agents.addAgent("sensor_12_02").addAnnotation(new Sector("se"));
+			agents.addAgent("sensor_12_08").addAnnotation(new Sector("se"));
+
+			a = agents.addAgent("sensor_15_05");
+			a.addAnnotation(new Sector("se"));
+			a.addAnnotation(new Definition("manage_sector"));
+
+			agents.addAgent("sensor_18_02").addAnnotation(new Sector("se"));
+			agents.addAgent("sensor_18_08").addAnnotation(new Sector("se"));
 			
 			// bind agents and positions
 			orgBin.bindOrganisations(org, agents);

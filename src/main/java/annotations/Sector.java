@@ -4,9 +4,9 @@ package annotations;
  * @author cleber
  *
  */
-public class Definition extends Annotation {
+public class Sector extends Annotation {
 
-	public Definition(String id) {
+	public Sector(String id) {
         super(id);
 	}
 	
@@ -15,8 +15,8 @@ public class Definition extends Annotation {
 		return this.getClass().getSimpleName().substring(0, 1) + "[" + this.id + "]";
     }
     
-	public Definition clone() {
-		Definition clone = new Definition(this.id);
+	public Sector clone() {
+		Sector clone = new Sector(this.id);
 	
 	    return clone;
 	}
