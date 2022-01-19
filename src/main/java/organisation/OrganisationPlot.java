@@ -63,7 +63,7 @@ public class OrganisationPlot {
 						+ "<tr><td bgcolor=\"black\" align=\"center\"><font color=\"white\">" + or.getPositionName()
 						+ "</font></td></tr><tr><td align=\"center\">" + or.getAssignedGoals() + "</td></tr>");
 
-				for (final Object s : or.getWorkloads())
+				for (final Object s : or.getAnnotations())
 					out.write("<tr><td align=\"center\">" + s.toString() + "</td></tr>");
 
 				out.write("</table>> ];\n");
@@ -182,7 +182,7 @@ public class OrganisationPlot {
 					+ "<tr><td align=\"center\"><b>" + g.getGoalName() + "</b></td></tr>");
 		}
 
-		for (final Object s : g.getWorkloads())
+		for (final Object s : g.getAnnotations())
 			out.write("<tr><td align=\"center\"><sub><i>" + s + "</i></sub></td></tr>");
 
 		out.write("</table>> ];\n");

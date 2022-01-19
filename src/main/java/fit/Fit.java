@@ -21,7 +21,7 @@ public abstract class Fit {
 	public Map<Requirement,Resource> fitRequirements(String orgName, Set<Requirement> requirements, Set<Resource> resources) {
 		System.out.println("OrgN: "+orgName);
 		System.out.println("Reqs: ");
-		requirements.forEach(r -> {System.out.println(r.getFeatures());});
+		requirements.forEach(r -> {System.out.println(r.getAnnotations());});
 		System.out.println("Reso: ");
 		resources.forEach(r -> {System.out.println(r.getFeatures());});
 		return null;

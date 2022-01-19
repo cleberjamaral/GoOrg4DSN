@@ -22,7 +22,7 @@ public class FirstFit extends Fit {
 			Iterator<Resource> it = availableResources.iterator();
 			while (it.hasNext()) {
 				Resource res = it.next();
-				List<String> rr = new ArrayList<>(req.getFeatures());
+				List<String> rr = new ArrayList<>(req.getAnnotationIds());
 				List<String> rs = new ArrayList<>(res.getFeatures());
 				if (rs.containsAll(rr)) {
 					matches.put(req, res);

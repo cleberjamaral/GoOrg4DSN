@@ -2,6 +2,8 @@ package fit;
 
 import java.util.Set;
 
+import annotations.Annotation;
+
 /**
  * @author cleber
  *
@@ -15,9 +17,14 @@ public interface Requirement {
 	public String getRequirement();
 	
 	/**
+	 * Return annotations
+	 * @return Set of annotations
+	 */
+	public Set<Annotation> getAnnotations();
+
+	/**
 	 * Return strings representing items that must be fulfilled
 	 * @return Set of strings
 	 */
-	public Set<String> getFeatures();
-
+	public Set<String> getAnnotationIds();
 }

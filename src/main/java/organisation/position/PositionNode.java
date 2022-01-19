@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import annotations.Annotation;
 import annotations.Workload;
 import fit.Requirement;
 import organisation.goal.GoalNode;
@@ -22,7 +23,7 @@ public class PositionNode implements Requirement {
 
 	private PositionNode parent;
 	private List<PositionNode> descendants = new ArrayList<>();
-	private Set<Workload> workloads = new HashSet<>();
+	private Set<Annotation> annotations = new HashSet<>();
 	private Set<GoalNode> assignedGoals = new HashSet<>();
 
 
@@ -36,19 +37,33 @@ public class PositionNode implements Requirement {
 		if (w != null) {
 			w.setValue((double) w.getValue() + (double) workload.getValue());
 		} else {
-			this.workloads.add(workload);
+			this.annotations.add(workload);
 		}
 	}
 	
+	public void addAnnotation(Annotation annotation) {
+		for (Annotation w : annotations) 
+			if (w.getClass().isAssignableFrom(annotation.getClass()) && annotation.getId() == w.getId()) 
+				// There is an annotation of same type and id
+				return;
+		
+		this.annotations.add(annotation);
+	}
+
 	public Workload getWorkload(String id) {
-		for (Workload w : this.workloads) 
-			if (w.getId().equals(id)) return w;
+		for (Annotation w : annotations) 
+			if (w instanceof Workload && w.getId().equals(id)) return (Workload) w;
 		
 		return null;
 	}
 	
-	public Set<Workload> getWorkloads() {
-		return this.workloads;
+	public List<Workload> getWorkloads() {
+		List<Workload> workloads = new ArrayList<Workload>();
+		for (Annotation w : annotations) 
+			if (w instanceof Workload) 
+				workloads.add((Workload) w);
+		
+		return workloads;
 	}
 
 	public double getSumWorkload() {
@@ -152,8 +167,8 @@ public class PositionNode implements Requirement {
 		// parent is resolved by its cloned source parent's name
 		clone.setParentName(getParentName());
 
-		for (Workload w : getWorkloads()) 
-			clone.addWorkload(w.clone());
+		for (Annotation w : getAnnotations()) 
+			clone.addAnnotation(w.clone());
 
 		for (GoalNode goal : getAssignedGoals()) 
 			if (!clone.getAssignedGoals().contains(goal)) 
@@ -198,14 +213,19 @@ public class PositionNode implements Requirement {
     }
 
 	@Override
-	public Set<String> getFeatures() {
-		Set<String> features = new HashSet<>();
-		getWorkloads().forEach(w -> {features.add(w.getId());});
-		return features;
+	public Set<Annotation> getAnnotations() {
+		return annotations;
 	}
 
 	@Override
 	public String getRequirement() {
 		return getPositionName();
+	}
+
+	@Override
+	public Set<String> getAnnotationIds() {
+		Set<String> strings = new HashSet<>();
+		annotations.forEach(w -> {strings.add(w.toString());});
+		return strings;
 	}
 }

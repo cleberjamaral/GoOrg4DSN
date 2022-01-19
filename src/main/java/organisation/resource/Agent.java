@@ -3,7 +3,7 @@ package organisation.resource;
 import java.util.HashSet;
 import java.util.Set;
 
-import annotations.Feature;
+import annotations.Annotation;
 import fit.Resource;
 
 /**
@@ -12,7 +12,7 @@ import fit.Resource;
  */
 public class Agent implements Resource {
 	private String name;
-	private Set<Feature> features = new HashSet<>();
+	private Set<Annotation> annotations = new HashSet<>();
 
 	public Agent(String name) {
 		this.name = name;
@@ -26,12 +26,12 @@ public class Agent implements Resource {
 		this.name = name;
 	}
 
-	public void addFeature(Feature feature) {
-		features.add(feature);
+	public void addAnnotation(Annotation annotation) {
+		annotations.add(annotation);
 	}
 	
 	public String toString() {
-		return this.name + " " + features;
+		return this.name + " " + annotations;
 	}
 	
 	@Override
@@ -62,7 +62,7 @@ public class Agent implements Resource {
 	@Override
 	public Set<String> getFeatures() {
 		Set<String> ids = new HashSet<>();
-		features.forEach(s -> {ids.add(s.getId());});
+		annotations.forEach(s -> {ids.add(s.getId());});
 		return ids;
 	}
 

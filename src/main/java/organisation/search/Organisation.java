@@ -1,9 +1,11 @@
 package organisation.search;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import annotations.Annotation;
 import busca.Estado;
 import busca.Heuristica;
 import organisation.OrganisationPlot;
@@ -187,6 +189,7 @@ public class Organisation implements Estado, Heuristica {
 				// add all children as possible successors
 				for (PositionNode position : positionsTree.getTree()) {
 					addNotNull((List<Object>) (List<?>) suc, addSupremePosition(goalToBeAssociated));
+					addNotNull((List<Object>) (List<?>) suc, addSubordinatePosition(position, goalToBeAssociated));
 					addNotNull((List<Object>) (List<?>) suc, joinExistingPosition(position, goalToBeAssociated));
 				}
 			}
@@ -245,6 +248,15 @@ public class Organisation implements Estado, Heuristica {
 				LOG.debug("Visited #" + getNStates() + " addSubordinate pruned#2 " + this.toString());
 				return null;
 			}
+			
+			// Prune states with a manage of a sector as a subordinate
+			for (Annotation f : (goalToAssign.getAnnotations())) {
+				System.err.println(goalToAssign.getAnnotations());
+				if (f.getId().startsWith("manage_sector")) {
+					LOG.debug("Visited #" + getNStates() + " addSubordinate pruned#3 " + this.toString());
+					return null;
+				}
+			} 
 
 			Organisation newState = (Organisation) createState(goalToAssign);
 

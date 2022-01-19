@@ -3,7 +3,8 @@ package organisation.goal;
 import java.util.ArrayList;
 import java.util.List;
 
-import annotations.Feature;
+import annotations.Definition;
+import annotations.Annotation;
 import annotations.Workload;
 import organisation.exception.CircularReference;
 
@@ -17,8 +18,7 @@ public class GoalNode {
 	private GoalNode parent;
 	private String operator;
 	private List<GoalNode> descendants = new ArrayList<>();
-	private List<Workload> workloads = new ArrayList<>();
-	private List<Feature> features = new ArrayList<>();
+	private List<Annotation> annotations = new ArrayList<>();
 
 	public GoalNode(GoalNode p, String name) {
 		goalName = name;
@@ -33,39 +33,35 @@ public class GoalNode {
 		}
 	}
 
-	public void addWorkload(Workload workload) {
-		Workload w = getWorkload(workload.getId());
-		if (w != null) {
-			w.setValue((double) w.getValue() + (double) workload.getValue());
-		} else {
-			workloads.add(workload);
-		}
-	}
-	
 	public Workload getWorkload(String id) {
-		for (Workload w : workloads) 
-			if (w.getId().equals(id)) return w;
+		for (Annotation w : annotations) 
+			if (w instanceof Workload && w.getId().equals(id)) return (Workload) w;
 		
 		return null;
 	}
 	
 	public List<Workload> getWorkloads() {
+		List<Workload> workloads = new ArrayList<Workload>();
+		for (Annotation w : annotations) 
+			if (w instanceof Workload) 
+				workloads.add((Workload) w);
+		
 		return workloads;
 	}
 
-	public void addFeature(Feature feature) {
-		this.features.add(feature);
+	public void addAnnotation(Annotation annotation) {
+		this.annotations.add(annotation);
 	}
 	
-	public Feature getFeature(String id) {
-		for (Feature w : features) 
+	public Annotation getAnnotation(String id) {
+		for (Annotation w : annotations) 
 			if (w.getId().equals(id)) return w;
 		
 		return null;
 	}
 	
-	public List<Feature> getFeatures() {
-		return features;
+	public List<Annotation> getAnnotations() {
+		return annotations;
 	}
 	
 	public double getSumWorkload() {
@@ -129,7 +125,7 @@ public class GoalNode {
 		GoalNode clone = new GoalNode(null, this.goalName);
 		
 		for (Workload w : getWorkloads()) 
-			clone.addWorkload(w.clone());
+			clone.addAnnotation(w.clone());
 		
 		clone.operator = this.operator;
 		

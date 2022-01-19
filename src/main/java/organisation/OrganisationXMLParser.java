@@ -150,7 +150,7 @@ public class OrganisationXMLParser {
 		            SimpleLogger.getInstance().debug(
 		                    "Push = " + referenceGoalNode.toString() + " - Op: " + referenceGoalNode.getOperator());
 		        } else if (node.getNodeName().equals("workload")) {
-		            referenceGoalNode.addWorkload(new Workload(eGoal.getAttribute("id"),
+		            referenceGoalNode.addAnnotation(new Workload(eGoal.getAttribute("id"),
 		                    Double.parseDouble(eGoal.getAttribute("value"))));
 		            SimpleLogger.getInstance()
 		                    .debug("W=" + referenceGoalNode.toString() + ":" + referenceGoalNode.getWorkloads());

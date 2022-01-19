@@ -3,6 +3,7 @@ package organisation.resource;
 import java.util.HashSet;
 import java.util.Set;
 
+import annotations.Definition;
 import fit.Resource;
 import fit.ResourceSet;
 
@@ -29,18 +30,21 @@ public class AgentSet implements ResourceSet {
 		availableAgents.add(agent);
 	}
 	
-	public void addAgent(String name) {
+	public Agent addAgent(String name) {
 		Agent agent = new Agent(name);
 		
 		availableAgents.add(agent);
+		return agent;
 	}
 
-	public void addAgent(String name, String id_annotation) {
+	public Agent addAgent(String name, String id_annotation) {
 		Agent agent = new Agent(name);
+		agent.addAnnotation(new Definition(id_annotation));
 		
 		availableAgents.add(agent);
+		return agent;
 	}
-	
+
 	public Set<Agent> getAvailableAgents() {
 		return availableAgents;
 	}

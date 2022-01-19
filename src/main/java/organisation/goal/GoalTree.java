@@ -198,7 +198,7 @@ public class GoalTree {
         	throw new GoalNotFound("Goal '"+goal+"' not found!");
         
         Workload w = new Workload(workload, effort);
-        g.addWorkload(w);
+        g.addAnnotation(w);
         allDiffWorkloads.add(w);
     }
 

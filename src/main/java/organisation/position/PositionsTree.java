@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import annotations.Annotation;
 import annotations.Workload;
 import fit.Requirement;
 import fit.RequirementSet;
@@ -117,8 +118,8 @@ public class PositionsTree implements RequirementSet {
 		position.assignGoal(newGoal);
 
 		// Copy all workloads of the goal to this new position
-		for (Workload w : newGoal.getWorkloads())
-			position.addWorkload(w.clone());
+		for (Annotation w : newGoal.getAnnotations())
+			position.addAnnotation(w.clone());
 	}
 
 	/**
