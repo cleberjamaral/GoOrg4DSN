@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import annotations.Annotation;
+import annotations.Sector;
 import annotations.Workload;
 import fit.Requirement;
 import organisation.goal.GoalNode;
@@ -66,6 +67,19 @@ public class PositionNode implements Requirement {
 		return workloads;
 	}
 
+	/**
+	 * A position may have more than one sector if it has joined goals from different sectors
+	 * @return
+	 */
+	public List<Sector> getSectors() {
+		List<Sector> sectors = new ArrayList<Sector>();
+		for (Annotation w : annotations) 
+			if (w instanceof Sector) 
+				sectors.add((Sector) w);
+		
+		return sectors;
+	}
+
 	public double getSumWorkload() {
 		double sumEfforts = 0;
 		for (Workload w : getWorkloads())
@@ -116,23 +130,12 @@ public class PositionNode implements Requirement {
 	}
 
 	/**
-	 * Check if this position has a goal which is sibling of the given goal
+	 * Check if this position has a parent position
 	 * @param g
 	 * @return
 	 */
-	public boolean hasSiblingGoal(GoalNode g) {
-		if (getParent() == null)
-			return false;
-		return getParent().getAssignedGoals().contains(g.getParent());
-	}
-
-	/**
-	 * Check if this position has a goal which is sibling of the given goal
-	 * @param g
-	 * @return
-	 */
-	public boolean hasParentGoal(GoalNode g) {
-		return getAssignedGoals().contains(g.getParent());
+	public boolean hasParent() {
+		return getParent() != null;
 	}
 
 	/**

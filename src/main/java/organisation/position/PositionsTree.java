@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import annotations.Annotation;
+import annotations.Sector;
 import annotations.Workload;
 import fit.Requirement;
 import fit.RequirementSet;
@@ -298,39 +299,46 @@ public class PositionsTree implements RequirementSet {
 	}
 
 	/**
-	 * Flatness returns how shallow is the created positions tree. It is the
-	 * complement of tallness.
-	 * 
-	 * @return a compensated factor from 0 to 1, less flat to flattest
 	 */
-	public double getFlatness() {
-		return compensateWhenSearchInProgress(1 - getTallnessFactor());
+	public double getNearness() {
+		return compensateWhenSearchInProgress(getPropinquityFactor());
 	}
 	
 	/**
-	 * Tallness is how hierarchical is the organisation. The most hierarchical is an
-	 * organisation that has one position for each goal and put each position beow
-	 * another in a long chain of command.
-	 * 
-	 * @return a compensated factor from 0 to 1, less tall to tallest
 	 */
-	public double getTallness() {
-		return compensateWhenSearchInProgress(getTallnessFactor());
+	public double getFarness() {
+		return compensateWhenSearchInProgress(1 - getPropinquityFactor());
 	}
 
 	/**
-	 * Tallness returns how tall is the created positions tree. The tallest tree has
-	 * one position for each goal and all of them are in a chain, with only one
-	 * supreme, that has one subordinate, which has one subordinates, and so on.
-	 * Oppositely, the flattest tree has only one level, meaning all positions are
-	 * supreme.
+	 * Propinquity returns how close the goal of same sectors are assigned to 
+	 * positions in a hierarchy.
 	 * 
-	 * @return tallness rate from 0 to 1, from flattest to tallest
+	 * @return propiquity rate from 0 to 1, from far to near
 	 */
-	public double getTallnessFactor() {
-		// The maximum number of levels is the number of broken goals
-		int maxLevels = GoalTree.getInstance().getTree().size();
-		return (double) (numberOfLevels - 1) / (double) Math.max(1, maxLevels - 1);
+	public double getPropinquityFactor() {
+		// Check if two position in a hierarchy are of the same sector
+		for (PositionNode p : this.tree) {
+			if (p.hasParent() && p.getSectors().size() == 1) {
+				// The superior is not of the same sector as the subordinate
+				if (!p.getSectors().get(0).getId().equals(p.getParent().getSectors().get(0).getId())) {
+					System.err.println(p.getSectors().get(0).getId()+" "+p.getParent().getSectors().get(0).getId());
+					return 0;
+				}
+			}
+		}
+
+		// Check if a joined position has different sectors
+		for (PositionNode p : this.tree) {
+			if (p.getSectors().size() > 1) {
+				//System.err.println(p.getSectors());
+				return 0;
+			}
+		}
+		
+		
+		//System.err.println(this.tree);
+		return 1;
 	}
 	
 	/**

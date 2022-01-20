@@ -167,8 +167,8 @@ public class OrganisationStatistics {
 		line.put("%Effic", (String.format("%.0f%%", 100 * o.getPositionsTree().getEfficiency())));
 		line.put("%Geral", (String.format("%.0f%%", 100 * o.getPositionsTree().getGeneralness())));
 		line.put("%Speci", (String.format("%.0f%%", 100 * o.getPositionsTree().getSpecificness())));
-		line.put("%Tall", (String.format("%.0f%%", 100 * o.getPositionsTree().getTallness())));
-		line.put("%Flat", (String.format("%.0f%%", 100 * o.getPositionsTree().getFlatness())));
+		line.put("%Near", (String.format("%.0f%%", 100 * o.getPositionsTree().getNearness())));
+		line.put("%Far", (String.format("%.0f%%", 100 * o.getPositionsTree().getFarness())));
 		
 		line.put("pTree", o.getPositionsTree().toString());
 		line.put("bgTree", bgTree);

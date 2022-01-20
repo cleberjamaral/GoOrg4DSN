@@ -35,6 +35,7 @@ public class OrganisationApp {
 			preferences.add(Cost.valueOf(args[i]));
 
 		if (preferences.size() == 0)
+			preferences.add(Cost.NEAR);
 			preferences.add(Cost.SPECIALIST);
 
 		// if a Moise XML file was not provided, use a sample organisation
@@ -61,9 +62,9 @@ public class OrganisationApp {
 			gTree.addGoal("manage_sector_SE", "manage_sector_NW");
 			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SE").addAnnotation(new Workload("manage_sector",0.6));
 			gTree.findAGoalByName(manage_sector_nw, "manage_sector_SE").addAnnotation(new Sector("se"));
-			gTree.addGoal("track_1", "manage_sector_NW");
+			gTree.addGoal("track_1", "manage_sector_SE");
 			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Workload("manage_track",0.2));
-			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Sector("nw"));
+			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Sector("se"));
 
 			// perform organisation generation (free design)
 			Organisation org = orgGen.generateOrganisationFromTree("sample", preferences, search, Parameters.isOneSolution());

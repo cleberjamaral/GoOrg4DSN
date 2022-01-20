@@ -17,5 +17,5 @@ package organisation.search.cost;
  * @author cleber
  */
 public enum Cost {
-	UNITARY, TALLER, FLATTER, SPECIALIST, GENERALIST, EFFICIENT, IDLE;
+	UNITARY, NEAR, FAR, SPECIALIST, GENERALIST, EFFICIENT, IDLE;
 }

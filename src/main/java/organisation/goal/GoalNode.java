@@ -3,7 +3,7 @@ package organisation.goal;
 import java.util.ArrayList;
 import java.util.List;
 
-import annotations.Definition;
+import annotations.Sector;
 import annotations.Annotation;
 import annotations.Workload;
 import organisation.exception.CircularReference;
@@ -47,6 +47,18 @@ public class GoalNode {
 				workloads.add((Workload) w);
 		
 		return workloads;
+	}
+
+	/**
+	 * A goal is supposed to have only one annotation of type sector
+	 * @return
+	 */
+	public Sector getSector() {
+		for (Annotation w : annotations) 
+			if (w instanceof Sector) 
+				return (Sector) w;
+		
+		return null;
 	}
 
 	public void addAnnotation(Annotation annotation) {

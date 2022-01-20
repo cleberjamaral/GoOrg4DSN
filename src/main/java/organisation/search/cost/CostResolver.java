@@ -54,16 +54,16 @@ public class CostResolver {
 					* (preferences.indexOf(Cost.SPECIALIST) + 1));
 		}
 
-		// FLATTER - penalize according to the height of the new tree
-		if (preferences.contains(Cost.FLATTER)) {
-			cost += (int) ((1 - newTree.getFlatness()) * Parameters.getDefaultPenalty()
-					* (preferences.indexOf(Cost.FLATTER) + 1));
+		// NEAR
+		if (preferences.contains(Cost.NEAR)) {
+			cost += (int) ((1 - newTree.getNearness()) * Parameters.getDefaultPenalty()
+					* (preferences.indexOf(Cost.NEAR) + 1));
 		}
 
-		// TALLER - penalize according to the height of the new tree
-		if (preferences.contains(Cost.TALLER)) {
-			cost += (int) ((1 - newTree.getTallness()) * Parameters.getDefaultPenalty()
-					* (preferences.indexOf(Cost.TALLER) + 1));
+		// FAR
+		if (preferences.contains(Cost.FAR)) {
+			cost += (int) ((1 - newTree.getFarness()) * Parameters.getDefaultPenalty()
+					* (preferences.indexOf(Cost.FAR) + 1));
 		}
 		
 		return cost;

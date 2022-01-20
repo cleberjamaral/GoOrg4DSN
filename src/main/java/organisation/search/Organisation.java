@@ -210,6 +210,19 @@ public class Organisation implements Estado, Heuristica {
 				return null;
 			}
 
+			// Prune states in which the supreme is not a manage_sector
+			boolean isManager = false;
+			for (Annotation f : (goalToAssign.getAnnotations())) {
+				if (f.getId().equals("manage_sector")) {
+					isManager = true;
+					break;	
+				}
+			}
+			if (!isManager) {
+				LOG.debug("Visited #" + getNStates() + " addSupreme pruned#2 " + this.toString());
+				return null;
+			}
+
 			Organisation newState = (Organisation) createState(goalToAssign);
 
 			PositionNode nr = newState.positionsTree.createPosition(null, "p" + newState.positionsTree.size(), goalToAssign);
@@ -251,8 +264,7 @@ public class Organisation implements Estado, Heuristica {
 			
 			// Prune states with a manage of a sector as a subordinate
 			for (Annotation f : (goalToAssign.getAnnotations())) {
-				System.err.println(goalToAssign.getAnnotations());
-				if (f.getId().startsWith("manage_sector")) {
+				if (f.getId().equals("manage_sector")) {
 					LOG.debug("Visited #" + getNStates() + " addSubordinate pruned#3 " + this.toString());
 					return null;
 				}
@@ -298,6 +310,16 @@ public class Organisation implements Estado, Heuristica {
 				return null;
 			}
 
+			// Prune states with a manage of a sector as a subordinate
+			if (hostPosition.hasParent()) {
+				for (Annotation f : (goalToAssign.getAnnotations())) {
+					if (f.getId().equals("manage_sector")) {
+						LOG.debug("Visited #" + getNStates() + " joinExisting pruned#3 " + this.toString());
+						return null;
+					}
+				} 
+			}
+			
 			Organisation newState = (Organisation) createState(goalToAssign);
 
 			PositionNode jr = newState.positionsTree.assignGoalToPositionByPositionName(hostPosition.getPositionName(), goalToAssign);
