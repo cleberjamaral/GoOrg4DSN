@@ -36,7 +36,7 @@ public class OrganisationApp {
 
 		if (preferences.size() == 0)
 			preferences.add(Cost.NEAR);
-			preferences.add(Cost.SPECIALIST);
+			preferences.add(Cost.IDLE);
 
 		// if a Moise XML file was not provided, use a sample organisation
 		if ((args.length < 1) || (args[0].equals("0"))) {

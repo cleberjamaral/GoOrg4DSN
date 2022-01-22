@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import annotations.Annotation;
-import annotations.Sector;
 import annotations.Workload;
 import fit.Requirement;
 import fit.RequirementSet;
@@ -322,7 +321,6 @@ public class PositionsTree implements RequirementSet {
 			if (p.hasParent() && p.getSectors().size() == 1) {
 				// The superior is not of the same sector as the subordinate
 				if (!p.getSectors().get(0).getId().equals(p.getParent().getSectors().get(0).getId())) {
-					System.err.println(p.getSectors().get(0).getId()+" "+p.getParent().getSectors().get(0).getId());
 					return 0;
 				}
 			}
@@ -331,13 +329,10 @@ public class PositionsTree implements RequirementSet {
 		// Check if a joined position has different sectors
 		for (PositionNode p : this.tree) {
 			if (p.getSectors().size() > 1) {
-				//System.err.println(p.getSectors());
 				return 0;
 			}
 		}
 		
-		
-		//System.err.println(this.tree);
 		return 1;
 	}
 	

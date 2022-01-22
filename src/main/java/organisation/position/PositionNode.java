@@ -228,7 +228,7 @@ public class PositionNode implements Requirement {
 	@Override
 	public Set<String> getAnnotationIds() {
 		Set<String> strings = new HashSet<>();
-		annotations.forEach(w -> {strings.add(w.toString());});
+		annotations.forEach(w -> {strings.add(w.getId());});
 		return strings;
 	}
 }
