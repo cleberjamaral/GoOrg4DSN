@@ -269,6 +269,14 @@ public class Organisation implements Estado, Heuristica {
 				}
 			} 
 
+			// Prune states with a manage of a track as a superior
+			for (Annotation f : (aGivenPosition.getAnnotations())) {
+				if (f.getId().equals("manage_track")) {
+					LOG.debug("Visited #" + getNStates() + " addSubordinate pruned#3 " + this.toString());
+					return null;
+				}
+			} 
+
 			Organisation newState = (Organisation) createState(goalToAssign);
 
 			PositionNode nr = newState.positionsTree.createPosition(newState.positionsTree.findPositionByName(aGivenPosition.getPositionName()),
@@ -309,7 +317,7 @@ public class Organisation implements Estado, Heuristica {
 				return null;
 			}
 
-			// Prune states with a manage of a sector as a subordinate
+			// Prune states which tries to add manage-Sector twice
 			if (hostPosition.hasParent()) {
 				for (Annotation f : (goalToAssign.getAnnotations())) {
 					if (f.getId().equals("manage_sector")) {

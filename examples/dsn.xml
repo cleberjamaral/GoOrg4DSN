@@ -8,74 +8,111 @@
 	xsi:schemaLocation='http://moise.sourceforge.net/os
                         http://moise.sourceforge.net/xml/os.xsd'>
 
-	<structural-specification>
-
-		<role-definitions>
-			<role id="roletst1" />
-			<role id="roletst2" />
-		</role-definitions>
-
-		<group-specification id="group">
-			<roles>
-				<role id="roletst1" min="1" max="1" />
-				<role id="roletst2" min="0" max="300" />
-			</roles>
-
-			<links>
-				<link from="roletst1" to="roletst2" type="communication" scope="intra-group" extends-subgroups="false"
-					bi-dir="true" />
-			</links>
-		</group-specification>
-	</structural-specification>
-
 
 	<functional-specification>
 		<scheme id="dsn_sch">
-			<goal id="tT">
+			<goal id="manage_sector_NW">
+				<workload id="manage_sector" value="0.6"/>
+				<sector id="nw"/>
 				<plan operator="sequence">
-					<goal id="iP" ttf="20 minutes" ds="prepare the site for the next tasks">
-						<skill id="c" />
-						<plan operator="sequence">
-							<goal id="mA">
-								<skill id="c" />
-								<plan operator="sequence">
-									<goal id="mA1">
-										<skill id="mpA1" />
-									</goal>
-									<goal id="mA2">
-										<skill id="mpA2" />
-									</goal>
-									<goal id="mA3">
-										<skill id="mpA3" />
-									</goal>
-								</plan>
-							</goal>
-							<goal id="mB">
-								<skill id="c" />
-								<plan operator="sequence">
-									<goal id="mB1">
-										<skill id="mpB1" />
-									</goal>
-									<goal id="mB2">
-										<skill id="mpB2" />
-									</goal>
-									<goal id="mB3">
-										<skill id="mpB3" />
-									</goal>
-								</plan>
-							</goal>
-						</plan>
+					<goal id="manage_sector_NE">
+						<workload id="manage_sector" value="0.6"/>
+						<sector id="ne"/>
+					</goal>
+					<goal id="manage_sector_SW">
+						<workload id="manage_sector" value="0.6"/>
+						<sector id="sw"/>
+					</goal>
+					<goal id="manage_sector_SE">
+						<workload id="manage_track" value="0.6"/>
+						<sector id="se"/>
+					</goal>
+					<goal id="track_1">
+						<workload id="manage_sector" value="0.2"/>
+						<sector id="se"/>
+					</goal>
+					<goal id="track_2">
+						<workload id="manage_sector" value="0.2"/>
+						<sector id="se"/>
+					</goal>
+					<goal id="track_3">
+						<workload id="manage_sector" value="0.2"/>
+						<sector id="nw"/>
 					</goal>
 				</plan>
 			</goal>
-			<mission id="m" min="1">
-				<goal id="m" />
-			</mission>
 		</scheme>
 	</functional-specification>
 
-	<normative-specification>
-		<norm id="n1" type="permission" role="roletst1" mission="m" />
-	</normative-specification>
+	<available-agents>
+		<!-- 5 sensor on Sector nw -->
+		<agent id="sensor_02_12">
+			<sector id="nw"/>
+		</agent>
+		<agent id="sensor_02_18">
+			<sector id="nw"/>
+		</agent>
+		<agent id="sensor_05_15">
+			<sector id="nw"/>
+			<intent id="manage_sector"/>
+		</agent>
+		<agent id="sensor_08_12">
+			<sector id="nw"/>
+		</agent>
+		<agent id="sensor_08_18">
+			<sector id="nw"/>
+		</agent>
+		<!-- 5 sensor on Sector ne -->
+		<agent id="sensor_12_12">
+			<sector id="ne"/>
+		</agent>
+		<agent id="sensor_12_18">
+			<sector id="ne"/>
+		</agent>
+		<agent id="sensor_15_15">
+			<sector id="ne"/>
+			<intent id="manage_sector"/>
+		</agent>
+		<agent id="sensor_18_12">
+			<sector id="ne"/>
+		</agent>
+		<agent id="sensor_18_18">
+			<sector id="ne"/>
+		</agent>
+		<!-- 5 sensor on Sector sw -->
+		<agent id="sensor_02_02">
+			<sector id="sw"/>
+		</agent>
+		<agent id="sensor_02_08">
+			<sector id="sw"/>
+		</agent>
+		<agent id="sensor_05_05">
+			<sector id="sw"/>
+			<intent id="manage_sector"/>
+		</agent>
+		<agent id="sensor_08_02">
+			<sector id="sw"/>
+		</agent>
+		<agent id="sensor_08_08">
+			<sector id="sw"/>
+		</agent>
+		<!-- 5 sensor on Sector se -->
+		<agent id="sensor_12_02">
+			<sector id="se"/>
+		</agent>
+		<agent id="sensor_12_08">
+			<sector id="se"/>
+		</agent>
+		<agent id="sensor_15_05">
+			<sector id="se"/>
+			<intent id="manage_sector"/>
+		</agent>
+		<agent id="sensor_18_02">
+			<sector id="se"/>
+		</agent>
+		<agent id="sensor_18_08">
+			<sector id="se"/>
+		</agent>
+	</available-agents>
 
 </organisational-specification>

@@ -3,7 +3,7 @@ package organisation;
 import java.util.ArrayList;
 import java.util.List;
 
-import annotations.Definition;
+import annotations.Intent;
 import annotations.Sector;
 import annotations.Workload;
 import organisation.goal.GoalNode;
@@ -65,6 +65,15 @@ public class OrganisationApp {
 			gTree.addGoal("track_1", "manage_sector_SE");
 			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Workload("manage_track",0.2));
 			gTree.findAGoalByName(manage_sector_nw, "track_1").addAnnotation(new Sector("se"));
+			gTree.addGoal("track_2", "manage_sector_SE");
+			gTree.findAGoalByName(manage_sector_nw, "track_2").addAnnotation(new Workload("manage_track",0.2));
+			gTree.findAGoalByName(manage_sector_nw, "track_2").addAnnotation(new Sector("se"));
+			gTree.addGoal("track_3", "manage_sector_NW");
+			gTree.findAGoalByName(manage_sector_nw, "track_3").addAnnotation(new Workload("manage_track",0.2));
+			gTree.findAGoalByName(manage_sector_nw, "track_3").addAnnotation(new Sector("nw"));
+			//gTree.addGoal("track_4", "manage_sector_NW");
+			//gTree.findAGoalByName(manage_sector_nw, "track_4").addAnnotation(new Workload("manage_track",0.2));
+			//gTree.findAGoalByName(manage_sector_nw, "track_4").addAnnotation(new Sector("nw"));
 
 			// perform organisation generation (free design)
 			Organisation org = orgGen.generateOrganisationFromTree("sample", preferences, search, Parameters.isOneSolution());
@@ -77,7 +86,7 @@ public class OrganisationApp {
 
 			Agent a = agents.addAgent("sensor_05_15");
 			a.addAnnotation(new Sector("nw"));
-			a.addAnnotation(new Definition("manage_sector"));
+			a.addAnnotation(new Intent("manage_sector"));
 			
 			agents.addAgent("sensor_08_12").addAnnotation(new Sector("nw"));
 			agents.addAgent("sensor_08_18").addAnnotation(new Sector("nw"));
@@ -88,7 +97,7 @@ public class OrganisationApp {
 			
 			a = agents.addAgent("sensor_15_15");
 			a.addAnnotation(new Sector("ne"));
-			a.addAnnotation(new Definition("manage_sector"));
+			a.addAnnotation(new Intent("manage_sector"));
 			
 			agents.addAgent("sensor_18_12").addAnnotation(new Sector("ne"));
 			agents.addAgent("sensor_18_18").addAnnotation(new Sector("ne"));
@@ -99,7 +108,7 @@ public class OrganisationApp {
 
 			a = agents.addAgent("sensor_05_05");
 			a.addAnnotation(new Sector("sw"));
-			a.addAnnotation(new Definition("manage_sector"));
+			a.addAnnotation(new Intent("manage_sector"));
 			
 			agents.addAgent("sensor_08_02").addAnnotation(new Sector("sw"));
 			agents.addAgent("sensor_08_08").addAnnotation(new Sector("sw"));
@@ -110,7 +119,7 @@ public class OrganisationApp {
 
 			a = agents.addAgent("sensor_15_05");
 			a.addAnnotation(new Sector("se"));
-			a.addAnnotation(new Definition("manage_sector"));
+			a.addAnnotation(new Intent("manage_sector"));
 
 			agents.addAgent("sensor_18_02").addAnnotation(new Sector("se"));
 			agents.addAgent("sensor_18_08").addAnnotation(new Sector("se"));

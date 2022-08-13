@@ -3,7 +3,7 @@ package organisation.resource;
 import java.util.HashSet;
 import java.util.Set;
 
-import annotations.Definition;
+import annotations.Intent;
 import fit.Resource;
 import fit.ResourceSet;
 
@@ -39,7 +39,7 @@ public class AgentSet implements ResourceSet {
 
 	public Agent addAgent(String name, String id_annotation) {
 		Agent agent = new Agent(name);
-		agent.addAnnotation(new Definition(id_annotation));
+		agent.addAnnotation(new Intent(id_annotation));
 		
 		availableAgents.add(agent);
 		return agent;
